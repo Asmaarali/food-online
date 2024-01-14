@@ -1,0 +1,63 @@
+<style>
+    .toast-close-button{
+        margin: 0;
+        width: 20px;
+      }
+      #toast-container>div{
+        width: 400px !important;
+
+      
+      }
+      .toast{
+        animation: show_toast 0.6s ease forwards;
+        overflow: hidden;
+        font-weight: bold !important;
+      }
+      
+      
+      @keyframes show_toast {
+        0% {
+          transform: translateX(100%);
+        }
+        40% {
+          transform: translateX(-5%);
+        }
+        80% {
+          transform: translateX(0%);
+        }
+        100% {
+          transform: translateX(-10px);
+        }
+      }
+</style>
+{% if messages %}
+{% for message in messages %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+
+
+<script> 
+  toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": true,
+    "positionClass": "toast-bottom-right",
+    "preventDuplicates": false,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "hide"
+  }
+  toastr["{{message.tags}}"]("{{message}}", "{{message.tags}}")
+  // Command: toastr["success"]("Account created successfully", "Success")
+
+</script>
+{% endfor %}
+{% endif %}
