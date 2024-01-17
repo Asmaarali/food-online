@@ -39,7 +39,7 @@ So, if you have a record with an empty phone number, and null=True is set, in th
 Certainly! The django.contrib.auth.admin module, specifically the UserAdmin class within it, provides default functionalities to manage user models within the Django admin interface.
 6) Django-signals:
 django signals is an event or action used to perform pre post actiions or event as soon as data is triggered into the database
-
+7) form.forms hame tb use krna h jab model me fields na batai ho or shru se fields describe kr rhe ho form me hi...modelform tb use krte jab model tyaar ho bs form ki fields chahiye ho
 
 
 
@@ -55,3 +55,5 @@ install env , requirements, django or other staff..and implement template then g
 3) Custom usermodel $ make password noneditable
 4) profile model & django signals
 5) customer registeration template and django forms & views saving form & ,generating fields & non fields error of forms
+6) django messages
+7) Vendor registeration form, models, profile and template,views
