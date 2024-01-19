@@ -81,7 +81,33 @@
                                     {% for field in form %}
                                         {% if field.errors %}
                                             {% for error in field.errors %}
-                                                <li style="color:red;font-weight:bold;">{{error}}</li>
+                                                    {% comment %} <li style="color:red;font-weight:bold;">{{error}}</li> {% endcomment %}
+                                                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+                                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+                                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    
+                                                    <script> 
+                                                    toastr.options = {
+                                                        "closeButton": true,
+                                                        "debug": false,
+                                                        "newestOnTop": false,
+                                                        "progressBar": true,
+                                                        "positionClass": "toast-bottom-right",
+                                                        "preventDuplicates": false,
+                                                        "showDuration": "300",
+                                                        "hideDuration": "1000",
+                                                        "timeOut": "5000",
+                                                        "extendedTimeOut": "1000",
+                                                        "showEasing": "swing",
+                                                        "hideEasing": "linear",
+                                                        "showMethod": "fadeIn",
+                                                        "hideMethod": "hide"
+                                                    }
+                                                    
+                                                    toastr["error"]("{{error}}", "error")
+                                                    // Command: toastr["success"]("Account created successfully", "Success")
+    
+                                                    </script> 
                                             {% endfor %}
                                         {% endif %}
                                     {% endfor %}

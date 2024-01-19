@@ -40,6 +40,12 @@ Certainly! The django.contrib.auth.admin module, specifically the UserAdmin clas
 6) Django-signals:
 django signals is an event or action used to perform pre post actiions or event as soon as data is triggered into the database
 7) form.forms hame tb use krna h jab model me fields na batai ho or shru se fields describe kr rhe ho form me hi...modelform tb use krte jab model tyaar ho bs form ki fields chahiye ho
+8) request.POST['sth'] will raise a KeyError exception if 'sth' is not in request.POST.
+
+request.POST.get('sth') will return None if 'sth' is not in request.POST
+9) from django.contrib import messages , auth    # if we use this then views name can be login or logout and call it using auth.login() auth.logout auth.authenticate
+
+from django.contrib.auth import authenticate , login , logout     #if we use this library then veiws name donot be login or logout and call it with auth
 
 
 
@@ -57,3 +63,4 @@ install env , requirements, django or other staff..and implement template then g
 5) customer registeration template and django forms & views saving form & ,generating fields & non fields error of forms
 6) django messages
 7) Vendor registeration form, models, profile and template,views
+8) login logout feature & detect user role to redirect thier specifiv dashboard
