@@ -41,11 +41,47 @@ Certainly! The django.contrib.auth.admin module, specifically the UserAdmin clas
 django signals is an event or action used to perform pre post actiions or event as soon as data is triggered into the database
 7) form.forms hame tb use krna h jab model me fields na batai ho or shru se fields describe kr rhe ho form me hi...modelform tb use krte jab model tyaar ho bs form ki fields chahiye ho
 8) request.POST['sth'] will raise a KeyError exception if 'sth' is not in request.POST.
-
 request.POST.get('sth') will return None if 'sth' is not in request.POST
 9) from django.contrib import messages , auth    # if we use this then views name can be login or logout and call it using auth.login() auth.logout auth.authenticate
 
-from django.contrib.auth import authenticate , login , logout     #if we use this library then veiws name donot be login or logout and call it with auth
+from django.contrib.auth import authenticate , login , logout     #if we use this library then veiws name donot be login or logout and call it with auth.
+
+10) 
+The difference between password=request.POST.get('password') and password=form.cleaned_data['password'] lies in how they retrieve the password inputted by the user in the registration form.
+
+a) password=request.POST.get('password'):
+This line directly accesses the password field from the POST data submitted by the user.
+It retrieves the password without performing any validation or cleaning. It simply gets the raw input as it was submitted.
+This approach doesn't involve Django's form validation process, so the password may not be validated or cleaned according to any form field specifications you've defined.
+b) password=form.cleaned_data['password']:
+This line accesses the password field from the cleaned_data attribute of the form.
+Before accessing the password, Django has already validated and cleaned the form data through its form validation process, ensuring that the password meets any validation rules you've defined in your form class.
+Using cleaned_data ensures that you're working with sanitized and validated data, reducing the risk of errors or security vulnerabilities due to improperly formatted or invalid data.
+In summary, request.POST.get('password') retrieves the raw, unvalidated input from the POST request, while form.cleaned_data['password'] retrieves the validated and cleaned password from the form's cleaned_data attribute. It's generally safer and more reliable to use form.cleaned_data['password'] because it ensures that you're working with validated data.
+
+11) class Author(models.Model):
+        name = models.CharField(max_length=100)
+
+    class Book(models.Model):
+        author = models.ForeignKey(Author, related_name='books', on_delete=models.CASCADE)
+        title = models.CharField(max_length=100)
+    
+    In this example, Book has a ForeignKey to Author, meaning each book is associated with one author. The related_name='books' attribute in the Book model specifies the name of the reverse relation from Author back to Book. So, if you have an Author object author, you can access all the books written by that author using author.books.
+
+    If related_name is not specified, Django automatically creates a related name by appending _set to the lowercase name of the related model. In this example, if related_name wasn't specified, you would access the books through author.book_set instead of author.books.
+
+    Using related_name allows you to provide a more descriptive name for the reverse relation, making your code more readable and understandable.
+
+12) User.objects.get and User._default_manager.get are same
+13) request.session['uid'] = uid  sessions are helpful to store user information to long term
+
+
+
+
+
+
+
+
 
 
 
@@ -55,12 +91,17 @@ from django.contrib.auth import authenticate , login , logout     #if we use thi
 
 
 <!--! steps) -->
-install env , requirements, django or other staff..and implement template then go to further steps
+install env , requirements, django or other stuff..and implement template then go to further steps
 1) githubs setup and .gitignore file
-2) postgress database integrations in settings and implement decouple to store sensitive information in settings
-3) Custom usermodel $ make password noneditable
+2) postgress database integrations in settings install pyscobj2 and implement decouple to store sensitive information in settings
+3) Custom usermodel & make password noneditable
 4) profile model & django signals
-5) customer registeration template and django forms & views saving form & ,generating fields & non fields error of forms
+5) customer registeration template inheritace and django forms & views, saving form & generating fields & non fields error of forms
 6) django messages
-7) Vendor registeration form, models, profile and template,views
-8) login logout feature & detect user role to redirect thier specifiv dashboard
+7) Vendor registeration models,template, form, views , adminconfig (registering vendor with 2 forms in views)
+8) login logout feature & detect user role to redirect thier specific dashboard customer or vendor using custom decorators (create function getrole in models)
+9) ~Email configuration in settings then setup email verification function in views for registering and activating customer and 
+    vendor. function defination in utils.py
+    activate url with uidb64 and token and create view for activating the user
+    password reseting...forgot password page and view checking if user exists with email if eit does send verificatio email
+    after click link reset_password_validate func will check and store the id in session..finally reset password view will change the password..
