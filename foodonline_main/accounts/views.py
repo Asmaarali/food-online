@@ -23,6 +23,8 @@ from django.core.exceptions import (
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
 
+from vendor.models import Vendor
+
 
 #!Custom decorators
 # restrict the customer to accessing the vendor dashboard from url

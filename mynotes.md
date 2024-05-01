@@ -74,6 +74,13 @@ In summary, request.POST.get('password') retrieves the raw, unvalidated input fr
 
 12) User.objects.get and User._default_manager.get are same
 13) request.session['uid'] = uid  sessions are helpful to store user information to long term
+14) Yes, you're correct. In the context of the save() method of a Django model, self.name or self.is_approved will give you the values of those fields after 
+    the save    button is triggered and the changes are being saved to the database.
+    self.. represents the current instance of the Vendor object.
+    orig.. represents the instance of the Vendor object as it exists in the database before any changes were made to the current instance (self).
+    'orig.is_approved' represents the value of is_approved in the database before any changes were made.
+    'self.is_approved' represents the current value of is_approved in the instance being saved.
+15) context processors... isme jo kxh bhi likhnge wo pore templates me hr html file k liye mojud hoka.nake srf ek view k liye
 
 
 
@@ -105,3 +112,6 @@ install env , requirements, django or other stuff..and implement template then g
     activate url with uidb64 and token and create view for activating the user
     password reseting...forgot password page and view checking if user exists with email if eit does send verificatio email
     after click link reset_password_validate func will check and store the id in session..finally reset password view will change the password..
+10) approving vendor...creating save trigger function in vendors models when the is_approved is check or uncheck the         send_notfication_email function should trigger.
+setup cust and vendor dashboard,setting vendor dashboard url setup.
+context processors for cover and profile pic on every page..create context_processors file and write a function and dont forget to write in settings.py file in templates
