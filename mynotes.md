@@ -81,6 +81,16 @@ In summary, request.POST.get('password') retrieves the raw, unvalidated input fr
     'orig.is_approved' represents the value of is_approved in the database before any changes were made.
     'self.is_approved' represents the current value of is_approved in the instance being saved.
 15) context processors... isme jo kxh bhi likhnge wo pore templates me hr html file k liye mojud hoka.nake srf ek view k liye
+16) vendor_license = forms.ImageField(widget=forms.FileInput(attrs={'class': 'btn btn-info'})) add this in form class to load the css of image field
+17) if you are making form with __all__ fields make sure dont forget to exclude the already forighn key field.otherwise it will give error while saving the form.
+18) custom validators for image file extensions...
+
+    profile_picture = forms.ImageField(widget=forms.FileInput(attrs={'class': 'btn btn-info'})) #if we dont use validators simply use imagefield
+    profile_picture = forms.FileField(widget=forms.FileInput(attrs={'class': 'btn btn-info'}), validators=[allow_only_images_validator]) # if we use validators use filefield for image field otherwise it will give error on imagefield
+
+
+
+
 
 
 
@@ -114,4 +124,5 @@ install env , requirements, django or other stuff..and implement template then g
     after click link reset_password_validate func will check and store the id in session..finally reset password view will change the password..
 10) approving vendor...creating save trigger function in vendors models when the is_approved is check or uncheck the         send_notfication_email function should trigger.
 setup cust and vendor dashboard,setting vendor dashboard url setup.
-context processors for cover and profile pic on every page..create context_processors file and write a function and dont forget to write in settings.py file in templates
+context processors for cover and profile pic on every page..create context_processors file and write a function and dont forget to write in settings.py file in templates.always write code in try catch in context processor function
+11) vendor profile setup..page and vendorprofileform setup and views ... showing form instance and loading image field css by putting one line code in form.py class ...making custom validators for images valid file extension...making latitude and longitude readonly field
