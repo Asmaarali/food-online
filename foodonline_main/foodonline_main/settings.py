@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'accounts',
-    'vendor'
+    'vendor',
+    'menu',
 ]
 
 #for custom user model

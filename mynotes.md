@@ -126,3 +126,5 @@ install env , requirements, django or other stuff..and implement template then g
 setup cust and vendor dashboard,setting vendor dashboard url setup.
 context processors for cover and profile pic on every page..create context_processors file and write a function and dont forget to write in settings.py file in templates.always write code in try catch in context processor function
 11) vendor profile setup..page and vendorprofileform setup and views ... showing form instance and loading image field css by putting one line code in form.py class ...making custom validators for images valid file extension...making latitude and longitude readonly field
+12) google cloud billing section was skipped
+13) setup new app menu create model class category and fooditem and setup adminpanel,,making form and adding category by form performing crud operations add update delete to category

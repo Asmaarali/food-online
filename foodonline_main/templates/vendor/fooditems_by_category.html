@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="main-section">
+    {% include 'includes/cover.html' %}
+    <div class="page-section account-header buyer-logged-in">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                    {% comment %} vendor sidebar {% endcomment %}
+                    {% include "includes/v_sidebar.html" %}
+                    
+
+                </div>
+
+                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                    <div class="user-dashboard loader-holder">
+                        <div class="user-holder">
+									<h4 class="text-uppercase">Build Your Menu</h4>
+
+                                    <hr>
+                                    <h6>Category: <span class="text-success text-uppercase">{{category}}</span></h6>
+                                    <a href="#" class="btn btn-info  m-1" onclick="history.back()"> <i class="fa fa-angle-left"></i>Back</a> 
+
+                                    {% comment %} <a href="#" class="btn btn-success float-right m-1"><i class="fa fa-plus"></i> Add Food</a>
+                                    <a href="#" class="btn btn-info float-right m-1"> <i class="fa fa-plus"></i> Add Category</a> {% endcomment %}
+                                    
+                                    <table class="table table-hover table-borderless">
+                                       
+                                        <tbody>
+                                            <br>
+                                            {% for food in fooditems %}
+                                                <tr>
+                                                    
+                                                    <td class="text-left">{{forloop.counter}}</td>
+                                                    <td class="text-left"><img src="{{food.image.url}}" alt="food image" width="40"></td>
+                                                    <td class="text-left">
+                                                        <a href="#"> <p class="mb-0 font-weight-bold">{{food}}</p>
+                                                        <small class="text-muted">{{food.description}}</small></a>
+                                                    </td>
+                                                    <td ><i class="fa fa-pencil text-success"></i> | <i class="fa fa-trash text-danger"></i></td>
+                                                </tr>
+                                                {% empty %}
+
+                                                {% comment %} <h5 class="">No food items found.</h5> {% endcomment %}
+                                                <div class="text-center">
+                                                    <h5 >No food items found.</h5>
+                                                     <a href="#" class="btn btn-success"><i class="fa fa-plus"></i> &nbsp; Add Food</a>
+
+                                                </div>
+                                            {% endfor %}
+                                        </tbody>
+                                      </table>
+                            
+
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
