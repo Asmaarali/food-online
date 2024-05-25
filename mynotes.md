@@ -87,6 +87,8 @@ In summary, request.POST.get('password') retrieves the raw, unvalidated input fr
 
     profile_picture = forms.ImageField(widget=forms.FileInput(attrs={'class': 'btn btn-info'})) #if we dont use validators simply use imagefield
     profile_picture = forms.FileField(widget=forms.FileInput(attrs={'class': 'btn btn-info'}), validators=[allow_only_images_validator]) # if we use validators use filefield for image field otherwise it will give error on imagefield
+19)     category = get_object_or_404(Category , pk=pk)  #getting category by pk
+        fooditems = FoodItem.objects.filter(vendor=vendor , category=category) #searching by category and vendor from both
 
 
 
@@ -128,3 +130,5 @@ context processors for cover and profile pic on every page..create context_proce
 11) vendor profile setup..page and vendorprofileform setup and views ... showing form instance and loading image field css by putting one line code in form.py class ...making custom validators for images valid file extension...making latitude and longitude readonly field
 12) google cloud billing section was skipped
 13) setup new app menu create model class category and fooditem and setup adminpanel,,making form and adding category by form performing crud operations add update delete to category
+14) error during adding same category from diff vendor..remove unique in models from category_name(personal prefference)
+15) add food crud ,,showing category of loggedin user rather than showing all..fixing issue of profile pic and cover for new user like put in if condition so if there then it will show
