@@ -24,6 +24,7 @@ from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
 
 from vendor.models import Vendor
+from django.template.defaultfilters import slugify
 
 
 #!Custom decorators
@@ -112,6 +113,8 @@ def registerVendor(request):
             user.save()
             vendor = v_form.save(commit=False)
             vendor.user = user
+            vendor_name=v_form.cleaned_data['vendor_name']
+            vendor.vendor_slug=slugify(vendor_name)+'-'+str(user.id)  # vendor name unique nai h to slug field unique kr rhe hn id k sth take same vendor name jab register ho to problem na aye
             user_profile = UserProfile.objects.get(user=user)
             # print(f"user = {user}")
             # print(f"user_prrofile = {user_profile}")

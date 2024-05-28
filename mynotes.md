@@ -89,7 +89,29 @@ In summary, request.POST.get('password') retrieves the raw, unvalidated input fr
     profile_picture = forms.FileField(widget=forms.FileInput(attrs={'class': 'btn btn-info'}), validators=[allow_only_images_validator]) # if we use validators use filefield for image field otherwise it will give error on imagefield
 19)     category = get_object_or_404(Category , pk=pk)  #getting category by pk
         fooditems = FoodItem.objects.filter(vendor=vendor , category=category) #searching by category and vendor from both
+20)      vendor_name=v_form.cleaned_data['vendor_name']
+        vendor.vendor_slug=slugify(vendor_name)+'-'+str(user.id)  # vendor name unique nai h to slug field unique kr rhe hn id k sth take same vendor name jab register ho to problem na aye
 
+21) fooditems = category.fooditem_set.all() #gives all fooditems for one perticular category using model name
+    # Get all food items for this category using the related_name 'food_items' in foreighn key
+    food_items = category.food_items.all()
+    # use prefetch method if you have any query for example i want all foods who is avilable this will give all category and as well ass all fooditems which are available
+        categories = Category.objects.filter(vendor=vendor).prefetch_related(
+        Prefetch(
+            'fooditems',
+            queryset= FoodItem.objects.filter(is_available=True)
+        )
+    )
+    # all categories and all food items
+    categories = Category.objects.prefetch_related('food_items').all()  #food_items is the related_name of foreighn key in fooditems model it fetches all categories and their relted fooditems of each category
+    # all categories and all fooditems in html template using for loop
+    categories = Category.objects.filter(vendor=vendor) #in views
+        {% for category in categories %}
+            {{category}}
+             {% for food in category.fooditems.all %} #relatedname is set to fooditems so we are using this if not (category.fooditem_set.all) now the fooditem is the model name and set is by default provide by django
+                {{food}}
+             {% endfor %}
+        {% endfor %}     
 
 
 
@@ -132,3 +154,5 @@ context processors for cover and profile pic on every page..create context_proce
 13) setup new app menu create model class category and fooditem and setup adminpanel,,making form and adding category by form performing crud operations add update delete to category
 14) error during adding same category from diff vendor..remove unique in models from category_name(personal prefference)
 15) add food crud ,,showing category of loggedin user rather than showing all..fixing issue of profile pic and cover for new user like put in if condition so if there then it will show
+16) create new app marketplace show vendor on home page ..add slug field on models and update the registerVendor form to auto create slug field..concotenate the id with slug field in registerVendor because vendor name is not unique and slug should be unique....
+now implement slug into url of marketplace to go vendor details page

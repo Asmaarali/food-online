@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'accounts',
     'vendor',
     'menu',
+    'marketplace',
 ]
 
 #for custom user model
