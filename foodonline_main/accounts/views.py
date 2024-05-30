@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse , JsonResponse
 
 from vendor.forms import VendorForm
 from .forms import UserForm
@@ -254,3 +254,28 @@ def reset_password(request):
             messages.error(request,"Password didnot match !!")
             return redirect('reset_password')            
     return render(request,"accounts/reset_password.html")
+
+
+# check email exist using ajax
+def check_user_exists(request):
+    email = request.GET.get('email')
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if User.objects.filter(email__exact=email).exists():
+            # user = User.objects.get(email__exact=email) #use filter instead of get if we nto using if condition
+            return JsonResponse({'status': '1','message': 'This EmailAddress With This Name Already Exist!'})
+        else:
+            return JsonResponse({'status': '0','message': 'Not Exist'})
+    else:
+        return JsonResponse({'status': 'failed','message':'Invalid request'})
+    
+# check username exists
+def check_username_exists(request):
+    username = request.GET.get('username')
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if User.objects.filter(username__exact=username).exists():
+            # user = User.objects.get(email__exact=email)
+            return JsonResponse({'status': '1','message': 'This UserName Already Exist!'})
+        else:
+            return JsonResponse({'status': '0','message': 'Not Exist'})
+    else:
+        return JsonResponse({'status': 'failed','message':'Invalid request'})

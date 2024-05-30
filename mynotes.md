@@ -111,7 +111,10 @@ In summary, request.POST.get('password') retrieves the raw, unvalidated input fr
              {% for food in category.fooditems.all %} #relatedname is set to fooditems so we are using this if not (category.fooditem_set.all) now the fooditem is the model name and set is by default provide by django
                 {{food}}
              {% endfor %}
-        {% endfor %}     
+        {% endfor %}   
+
+22) #modify category to show only category own particular vendor in add food.html
+    form.fields['category'].queryset = Category.objects.filter(vendor=get_vendor(request))  
 
 
 
@@ -155,4 +158,9 @@ context processors for cover and profile pic on every page..create context_proce
 14) error during adding same category from diff vendor..remove unique in models from category_name(personal prefference)
 15) add food crud ,,showing category of loggedin user rather than showing all..fixing issue of profile pic and cover for new user like put in if condition so if there then it will show
 16) create new app marketplace show vendor on home page ..add slug field on models and update the registerVendor form to auto create slug field..concotenate the id with slug field in registerVendor because vendor name is not unique and slug should be unique....
-now implement slug into url of marketplace to go vendor details page
+now implement slug into url of marketplace to go vendor details page and fetch vendor details
+17) add to cart model , url ,views and write custom js on add to cart button,,add attribute data-url,data-id in ad to cart button...write ajax code in custom.js and check it is working in views..write code in try except block to increase the cart or create the cart
+create context_processor for cart count and write code then fetch to navbar template...
+place food quantity on each food access cart_items.quantity in vendor detail page and views and make for loop using empty span with the data-id and data-url...data-id should be same in both div which is in vendor detail looping food item..final wirte jquery to access span tag and push the quantity in fooditems loop...update the cart counter and quantity in real time pass jsonresponse...
+decrease cart feature same as add to cart,create url view decrease ajax but only check if chkcart>1 then chkcart.quantity -= 1 in view....
+implement sweetalert for json response

@@ -19,6 +19,9 @@ urlpatterns=[
     path('reset_password_validate/<uidb64>/<token>/',views.reset_password_validate,name='reset_password_validate'),
     path('reset_password/',views.reset_password,name='reset_password'),
     
-    path('vendor/',include('vendor.urls'))
+    path('vendor/',include('vendor.urls')),
     
+    # check email & username exist using ajax
+    path('check_user_exists/',views.check_user_exists,name="check_user_exists"),
+    path('check_username_exists/',views.check_username_exists,name="check_username_exists"),
 ]

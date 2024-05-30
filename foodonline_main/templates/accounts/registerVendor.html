@@ -113,6 +113,8 @@
                                     {% endfor %}
                                     {% comment %} for non fields error in forms password != confirm_password {% endcomment %}
                                     <li style="color:red;font-weight:bold;">{{form.non_field_errors}}</li>
+                                    <li style="color:red;font-weight:bold;" id="messagejson"></li>
+                                    <li style="color:red;font-weight:bold;" id="usermessagejson"></li>
                                     </ul>
                                 </li>
                                 <li>
@@ -140,3 +142,4 @@
 
 
 {% endblock content %}
+

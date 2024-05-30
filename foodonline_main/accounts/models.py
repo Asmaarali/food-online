@@ -77,7 +77,7 @@ class User(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
 
-    # making for getting rol fuction in dashboard template
+    # making for getting role fuction in dashboard template
     def get_role(self):
         if self.role == 1:
             user_role = "Vendor"
