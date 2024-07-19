@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="main-section">
+    {% include 'includes/cover.html' %}
+    <div class="page-section account-header buyer-logged-in">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                    {% comment %} vendor sidebar {% endcomment %}
+                    {% include "includes/v_sidebar.html" %}
+                    
+
+                </div>
+
+                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                    <div class="user-dashboard loader-holder">
+                        <div class="user-holder">
+                            <h4 class="text-uppercase">opening hours</h4>
+                            <hr>       
+                            
+                                <table class="table opening_hours" >
+                                    <tbody>
+                                        {% for op in vendor_opening_hour %}
+                                            <tr id="remove-table-row-{{op.id}}">
+                                                <td>{{op}}</td>
+                                                {% if op.is_closed %}
+                                                <td style="letter-spacing:5px; font-weight:bold; color:red;">Closed</td>
+                                                {% else %}
+                                                <td>{{op.from_hour}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; to &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{op.to_hour}}</td>
+                                                {% comment %} <td>to</td>
+                                                <td>{{op.to_hour}}</td> {% endcomment %}
+                                                
+                                                {% endif %}
+                                                <td><a href="#" class="remove-opening-hour" data-url="{% url 'remove_opening_hours' op.id %}"><i class="fa fa-trash text-danger"></i></a></td>
+                                            </tr>
+                                            
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            <br>
+                            <br>
+                            <form id="opening_hours">
+                                {% csrf_token %}
+                                <div class="form-fields-set">
+                                    <div class="row">
+                                        {% comment %} <div class="col-lg-1 col-md-1 col-sm-6 col-xs-6"></div> {% endcomment %}
+
+                                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
+                                            <div class="field-holder">
+                                                <label style="font-weight:bold;">Days</label>
+                                                {{form.day}}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
+                                            <div class="field-holder">
+                                                <label style="font-weight:bold;">From Hour</label>
+                                                {{form.from_hour}}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
+                                            <div class="field-holder">
+                                                <label style="font-weight:bold;">To Hour</label>
+                                                {{form.to_hour}}
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-lg-2 col-md-1 col-sm-6 col-xs-6">
+                                            <div class="field-holder float-right">
+                                                <label style="font-weight:bold;">Set as <br> closed</label>
+                                                {{form.is_closed}}
+                                                
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-1 col-sm-6 col-xs-6">
+                                            <input type="hidden" id="add_opening_hours_url" value="{% url 'add_opening_hours' %}">
+                                            <button type="submit" class="btn btn-info mt-4 add-opening-hour" ><i class="fa fa-check"></i>  Add openings</button>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                {% comment %} <button type="submit" class="btn btn-info " style="margin-left:70px;"><i class="fa fa-check"></i>  Add openings</button> {% endcomment %}
+
+                                {% for field in form %}
+                                {% if field.errors %}
+                                    {% for error in field.errors %}
+                                        {% comment %} <li style="color:red;font-weight:bold;">{{error}}</li> {% endcomment %}
+                                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+                                        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+                                        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+                                        <script> 
+                                        toastr.options = {
+                                            "closeButton": true,
+                                            "debug": false,
+                                            "newestOnTop": false,
+                                            "progressBar": true,
+                                            "positionClass": "toast-bottom-right",
+                                            "preventDuplicates": false,
+                                            "showDuration": "300",
+                                            "hideDuration": "1000",
+                                            "timeOut": "5000",
+                                            "extendedTimeOut": "1000",
+                                            "showEasing": "swing",
+                                            "hideEasing": "linear",
+                                            "showMethod": "fadeIn",
+                                            "hideMethod": "hide"
+                                        }
+                                        
+                                        toastr["error"]("{{error}}", "error")
+                                        // Command: toastr["success"]("Account created successfully", "Success")
+
+                                        </script> 
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                            </form>   
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

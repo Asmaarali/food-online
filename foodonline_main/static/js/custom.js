@@ -204,5 +204,103 @@ $(document).ready(function () {
         $('#total').html(grand_total)
     }
 
+
+    // --------add opening hours-------
+    $('.add-opening-hour').on('click', function (e) {
+        e.preventDefault();
+        day = document.getElementById('id_day').value
+        from_hour = document.getElementById('id_from_hour').value
+        to_hour = document.getElementById('id_to_hour').value
+        is_closed = document.getElementById('id_is_closed').checked
+        csrf_token = $('input[name="csrfmiddlewaretoken"]').val()
+        url = document.getElementById('add_opening_hours_url').value
+
+        if (is_closed){
+            is_closed = 'True'
+            condition = "day!=''"
+        } else {
+            is_closed = 'False'
+            condition = "day !='' && from_hour !='' && to_hour !=''"
+        }
+
+        if (eval(condition)){
+
+            $.ajax({
+                type:'POST',
+                url : url,
+                data: {
+                    'day':day,
+                    'from_hour':from_hour,
+                    'to_hour':to_hour,
+                    'is_closed':is_closed,
+                    'csrfmiddlewaretoken':csrf_token,
+                    // 'test': 'testsuccessfull' for testing that it send the data properly to view
+                },
+                success: function(response){
+                    if(response.status == 'success'){
+                        if (response.is_closed == 'Closed'){
+                            html = `<tr id="remove-table-row-${response.id}"><td>${response.day}</td><td style="letter-spacing:5px; font-weight:bold; color:red;">Closed</td><td><a href="#" class="remove-opening-hour" data-url="/vendor/opening-hours/remove/${response.id}/"><i class="fa fa-trash text-danger"></i></a></td></tr>`
+                        } else {
+                            html = `<tr id="remove-table-row-${response.id}"><td>${response.day}</td><td>${response.from_hour} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; to &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${response.to_hour}</td><td><a href="#" class="remove-opening-hour" data-url="/vendor/opening-hours/remove/${response.id}/"><i class="fa fa-trash text-danger"></i></a></td></tr>`
+                        }
+                        $('.opening_hours').append(html) //appending the html in tabale
+                        $('#opening_hours').trigger("reset");//for reseting the form after submit and by javascript use document.getelementbyid('opening_hours').reset()
+                    } else {
+                        Swal.fire(response.message,'','error')
+                    }
+                    
+                    console.log(response)
+                }
+
+            })
+        } else {
+            Swal.fire('plz fill all fields,','','warning')
+        }
+
+        // if (day !='' && from_hour !='' && to_hour !=''){
+        //     console.log(day,from_hour,to_hour,is_closed , csrf_token)
+        // }
+        // else if(is_closed == true && from_hour == '' && to_hour == ''){
+        //     console.log('Holiday'+day)
+        // }
+        //  else {
+        //     Swal.fire('plz fill all fields,','','warning')
+        // }
+        
+    });
+
+
+    // --------remove opening hours-------
+    // this function is not working for remove opening hour ajax so we write another trick
+
+    // $('.remove-opening-hour').on('click', function (e) {
+    //     e.preventDefault();
+    //     url = $(this).attr('data-url');
+    //     $.ajax({
+    //         type:'GET',
+    //         url : url,
+    //         success:function(response){               
+    //             if (response.status == 'success'){
+    //                 document.getElementById('remove-table-row-'+response.id).remove()
+    //             }
+    //         }
+    //     })
+    // });
+
+    $(document).on('click','.remove-opening-hour',function(e){
+        e.preventDefault();
+        url = $(this).attr('data-url');
+        $.ajax({
+            type:'GET',
+            url : url,
+            success:function(response){               
+                if (response.status == 'success'){
+                    document.getElementById('remove-table-row-'+response.id).remove()
+                }
+            }
+        })
+    });
+
+
 });
 

@@ -1,12 +1,15 @@
 from django.http import HttpResponse , JsonResponse
 from django.shortcuts import render , redirect
 from menu.models import Category , FoodItem
-from vendor.models import Vendor
+from vendor.models import Vendor , OpeningHour
 from django.shortcuts import get_object_or_404
 from django.db.models import Prefetch
 from .models import Cart
 from .context_processors import get_cart_counter , get_cart_amount
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from datetime import date , datetime
+
 
 # Create your views here.
 
@@ -37,10 +40,22 @@ def vendor_detail(request , vendor_slug):
     else:
         cart_items = None
 
+    
+    # opening hours
+    opening_hours = OpeningHour.objects.filter(vendor = vendor).order_by('day','-from_hour')
+    # check current opening hours
+    c_today = date.today()
+    today = c_today.isoweekday()
+    # print(c_today)
+    current_opening_hours = OpeningHour.objects.filter(vendor=vendor , day = today)
+    # print(opening_hours)
+        
     context={
         'vendor':vendor,
         'categories':categories,
         'cart_items':cart_items,
+        'opening_hours':opening_hours,
+        'current_opening_hours':current_opening_hours,
     }
     return render(request,"marketplace/vendor_detail.html",context)
 
@@ -126,3 +141,22 @@ def delete_cart(request , cart_id):
             return JsonResponse({'status': 'failed','message':'Invalid request'})
     else:
         return JsonResponse({'status': 'login_required','message':'you are not loggin'})
+    
+
+def search(request):
+    get_search = request.GET['search']
+    
+    if not get_search:
+        return render(request, "marketplace/listing.html", {'vendors': Vendor.objects.none()})
+
+    # get vendor ids that has the food item the user is looking for 
+    fetch_all_vendor_ids_by_foodname = FoodItem.objects.filter(food_title__icontains = get_search , is_available = True).values_list('vendor' , flat=True)
+    # print(fetch_all_vendor_ids_by_foodname) 
+    
+    vendors = Vendor.objects.filter(Q(pk__in=fetch_all_vendor_ids_by_foodname) | Q(vendor_name__icontains = get_search , is_approved = True , user__is_active = True))
+    
+    context = {
+        'vendors': vendors
+    }
+    return render(request,"marketplace/listing.html", context)
+

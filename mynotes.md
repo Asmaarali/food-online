@@ -116,6 +116,9 @@ In summary, request.POST.get('password') retrieves the raw, unvalidated input fr
 22) #modify category to show only category own particular vendor in add food.html
     form.fields['category'].queryset = Category.objects.filter(vendor=get_vendor(request))  
 
+23)  # this line below get all vendors which contains the fooditem....value_list('vendor',flat=true) flat gives pure simple list rather than list of tuples...if use only values('vendor') it give dict
+fetch_all_vendor_ids_by_foodname = FoodItem.objects.filter(food_title__icontains = get_search ,            is_available = True).values_list('vendor' , flat=True)  
+
 
 
 
@@ -165,3 +168,6 @@ place food quantity on each food access cart_items.quantity in vendor detail pag
 decrease cart feature same as add to cart,create url view decrease ajax but only check if chkcart>1 then chkcart.quantity -= 1 in view....
 implement sweetalert for json response
 18) cart page url and template setup..showing cart items in cart page..delete cart item and removing item without reloading the page...decreasing cart after 0 remove with ajax also...context processor for subtotal tax and total...call getcartamount function in addtocart,decrease or delete ajax request
+19) search url and view and search queries by restaurant name or fooditem both
+20) opening hours urls views template sidebar,,,forms .. for adding without reloading the page set add hours url and views and then set ajax request...take all the values from html and also scrf token and send to ajax data..ajax will send data to view...ajax has data{} which send the data to view and get it from request.POST.get...create and save the data to database in view and send response to ajax..
+removing ajax..

@@ -15818,3 +15818,6 @@ textarea#comment_mes {
   cursor: pointer;
 }
 
+/* table>tbody>tr>td{
+  border: none !important;
+} */
