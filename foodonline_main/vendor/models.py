@@ -35,6 +35,7 @@ class Vendor(models.Model):
             try:
                 start=str(datetime.strptime(i.from_hour , "%I:%M %p").time())
                 end=str(datetime.strptime(i.to_hour , "%I:%M %p").time())
+                # print(start)
                 if current_time > start and current_time < end:
                     is_open = True
                     break

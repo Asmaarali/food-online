@@ -9,6 +9,7 @@ from .context_processors import get_cart_counter , get_cart_amount
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from datetime import date , datetime
+from django.db.models import Q
 
 
 # Create your views here.
@@ -25,8 +26,16 @@ def marketplace(request):
 
 def vendor_detail(request , vendor_slug):
     vendor = get_object_or_404(Vendor , vendor_slug=vendor_slug)
-    # print(vendor)
+    q=request.GET.get('q') if request.GET.get('q') != None else ''
+    
+    # print(q)
     categories = Category.objects.filter(vendor=vendor).prefetch_related(
+        Prefetch(
+            'fooditems',
+            queryset= FoodItem.objects.filter(category__category_name__icontains = q ,is_available=True)
+        )
+    )
+    cat = Category.objects.filter(vendor=vendor).prefetch_related(
         Prefetch(
             'fooditems',
             queryset= FoodItem.objects.filter(is_available=True)
@@ -51,6 +60,8 @@ def vendor_detail(request , vendor_slug):
     # print(opening_hours)
         
     context={
+        'q':q,
+        'cat':cat,
         'vendor':vendor,
         'categories':categories,
         'cart_items':cart_items,
